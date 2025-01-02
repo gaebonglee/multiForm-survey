@@ -1,16 +1,8 @@
 import "./App.css";
-import CompanySales from "./CompanySales";
-import JoinForm from "./JoinForm";
-
-//155ㅏㅠ 
+import MainLayout from "./components/common/MainLayout";
 
 function App() {
-  return (
-    <>
-      <JoinForm />
-      <CompanySales />
-    </>
-  );
+  return <MainLayout>content</MainLayout>;
 }
 
 export default App;
