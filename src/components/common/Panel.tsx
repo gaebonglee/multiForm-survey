@@ -17,7 +17,7 @@ export function PanelBody({ children }: PropsWithChildren) {
 export function PanelFooter({ children }: PropsWithChildren) {
   return (
     <>
-      <hr className="border-gray100 mb-20" />
+      <hr className="border-gray100" />
       <div>{children}</div>
     </>
   );
@@ -26,10 +26,12 @@ export function PanelFooter({ children }: PropsWithChildren) {
 export function PanelCap({ children }: PropsWithChildren) {
   return (
     <div className="-mb-10 relative">
-      <div className="inline-block px-14 pt-10 pb-6 bg-main rounded-t-10 text-15 text-white ">
-        {children}
-      </div>
-      <div className="bg-main h-9"></div>
+      {children && (
+        <div className="inline-block px-14 pt-10 pb-6 bg-main rounded-t-10 text-15 text-white">
+          {children}
+        </div>
+      )}
+      <div className="bg-main h-9" />
     </div>
   );
 }

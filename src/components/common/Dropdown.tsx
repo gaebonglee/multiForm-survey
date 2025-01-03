@@ -6,22 +6,28 @@ import {
   useContext,
   useState,
 } from "react";
-import useOutsideClick from "../../hooks/common/useOutsideClick"
+import useOutsideClick from "../../hooks/common/useOutsideClick";
 import { IoMdArrowDropdown } from "react-icons/io";
 
 interface DropdownProps<T> {
+  defaultValue?: T;
   placeholder?: string;
   options: DropdownOption<T>[];
   onChange?: (value: T) => void;
 }
 
 export default function Dropdown<T>({
+  defaultValue,
   placeholder,
   options,
   onChange,
 }: DropdownProps<T>) {
   const [opened, setOpened] = useState(false);
-  const [selected, setSelected] = useState(-1);
+  const [selected, setSelected] = useState(
+    defaultValue !== undefined
+      ? options.findIndex((option) => option.value === defaultValue)
+      : -1
+  );
 
   const open = useCallback(() => setOpened(true), []);
   const close = useCallback(() => setOpened(false), []);
@@ -32,8 +38,9 @@ export default function Dropdown<T>({
       onChange?.(options[index].value);
       close();
     },
-    [close, options, onChange]
+    [close, onChange, options]
   );
+
   return (
     <DropdownContext.Provider
       value={{
@@ -52,6 +59,7 @@ export default function Dropdown<T>({
     </DropdownContext.Provider>
   );
 }
+
 type DropdownOption<T> = {
   label: ReactNode;
   value: T;
@@ -65,6 +73,7 @@ interface DropdownContextType<T = unknown> {
   selected: number;
   onChange: (index: number) => void;
 }
+
 const DropdownContext = createContext<DropdownContextType | null>(null);
 
 function DropdownButton({ placeholder = " select" }: { placeholder?: string }) {
@@ -82,17 +91,13 @@ function DropdownButton({ placeholder = " select" }: { placeholder?: string }) {
   );
 }
 function DropdownMenu() {
-  const context = useContext(DropdownContext);
-  const containerRef = useOutsideClick();
-  if (!context) {
-    throw new Error("DropdownMenu must be used within a Dropdown.");
-  }
+  const { close, opened, options, onChange } = useContext(DropdownContext)!;
+  const containerRef = useOutsideClick(close);
 
-  const { close, opened, options, onChange } = context;
   return opened ? (
     <div
       ref={containerRef as RefObject<HTMLDivElement>}
-      className="absolute left-0 top-62 border border-gray-300 rounded-10 flex flex-col min-w-197 bg-white"
+      className="absolute left-0 top-62 border border-gray300 rounded-10 flex flex-col min-w-197 bg-white z-10"
     >
       {options.map((option, index) => (
         <DropdownMenuItem
@@ -114,7 +119,7 @@ function DropdownMenuItem({
 }) {
   return (
     <button
-      className="text-left p-14 border-b-1 border-gray-300 last:border-b-0 "
+      className="text-left p-14 border-b-1 border-gray300 last:border-b-0"
       onClick={onSelect}
     >
       {label}
