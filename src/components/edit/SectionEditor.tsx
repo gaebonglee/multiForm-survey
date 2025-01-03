@@ -1,18 +1,36 @@
-import { useSurveyStore } from "../../store";
+import { observer } from "mobx-react-lite";
 import QuestionEditor from "./QuestionEditor";
+import Section from "../../models/section";
+import SectionTitleEditor from "./SectionTitleEditor";
 
-export default function SectionEditor() {
-  const surveyStore = useSurveyStore();
+interface Props {
+  section: Section;
+  capTitle: string;
+  onChangeFocus: (id: number) => void;
+}
+
+const SectionEditor = observer(function SectionEditor({
+  capTitle,
+  section,
+  onChangeFocus,
+}: Props) {
+  const handleClickContainer = () => {
+    onChangeFocus(section.id);
+  };
+
   return (
-    <div className="relative">
-      <div className="absolute top-0 -right-50">
-        <button onClick={() => surveyStore.addQuestion()}>Add Question</button>
-      </div>
-      <div>
-        {surveyStore.questions.map((question) => (
-          <QuestionEditor key={question.id} question={question} />
-        ))}
-      </div>
+    <div className="[&>*]:mb-24" onClick={handleClickContainer}>
+      <SectionTitleEditor section={section} capTitle={capTitle} />
+      {section.questions.map((question) => (
+        <QuestionEditor
+          key={question.id}
+          question={question}
+          onCopy={section.copyQuesion}
+          onDelete={section.removeQuestion}
+        />
+      ))}
     </div>
   );
-}
+});
+
+export default SectionEditor;

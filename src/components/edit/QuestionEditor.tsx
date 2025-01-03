@@ -13,13 +13,14 @@ import { MdCalendarToday } from "react-icons/md";
 import { MdOutlineAccessTime } from "react-icons/md";
 import QuestionBodyEditor from "./QuestionBodyEditor";
 import Question from "../../models/question";
+import { observer } from "mobx-react-lite";
 
 //
 interface Props {
   question: Question;
 }
 
-export default function QuestionEditor({ question }: Props) {
+const QuestionEditor = observer(function QuestionEditor({ question }: Props) {
   return (
     <Panel className="border-l-10 border-l-transparent focus-within:border-l-main">
       <PanelHeader className="flex mb-25">
@@ -99,4 +100,6 @@ export default function QuestionEditor({ question }: Props) {
       </PanelBody>
     </Panel>
   );
-}
+});
+
+export default QuestionEditor;
