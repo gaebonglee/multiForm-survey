@@ -1,8 +1,22 @@
 import "./App.css";
 import MainLayout from "./components/common/MainLayout";
+import Tabs, { Tab, TabList, TabPanel, TabPanels } from "./components/common/Tabs";
 
 function App() {
-  return <MainLayout>content</MainLayout>;
+  return (
+    <MainLayout>
+      <Tabs>
+        <TabList>
+          <Tab index={0}>Tab1</Tab>
+          <Tab index={1}>Tab2</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel index={0}>panel1</TabPanel>
+          <TabPanel index={1}>panel2</TabPanel>
+        </TabPanels>
+      </Tabs>
+    </MainLayout>
+  );
 }
 
 export default App;
