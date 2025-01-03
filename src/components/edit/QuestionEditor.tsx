@@ -12,16 +12,21 @@ import { IoArrowDownCircleOutline } from "react-icons/io5";
 import { MdCalendarToday } from "react-icons/md";
 import { MdOutlineAccessTime } from "react-icons/md";
 import QuestionBodyEditor from "./QuestionBodyEditor";
-import { useState } from "react";
+import Question from "../../models/question";
 
-export default function QuestionEditor() {
-  const [type, setType] = useState<QuestionType>("shortText");
+//
+interface Props {
+  question: Question;
+}
+
+export default function QuestionEditor({ question }: Props) {
   return (
     <Panel className="border-l-10 border-l-transparent focus-within:border-l-main">
       <PanelHeader className="flex mb-25">
         <Input className="flex-1 mr-30" />
         <Dropdown<QuestionType>
-          onChange={(value) => setType(value)}
+          defaultValue={question.type}
+          onChange={(value) => question.setType(value)}
           options={[
             {
               label: (
@@ -90,7 +95,7 @@ export default function QuestionEditor() {
         />
       </PanelHeader>
       <PanelBody>
-        <QuestionBodyEditor type={type} />
+        <QuestionBodyEditor type={question.type} />
       </PanelBody>
     </Panel>
   );
