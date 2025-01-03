@@ -5,7 +5,7 @@ export default function Panel({ children, className }: PropsWithChildren<Cn>) {
   return (
     <div
       className={
-        (cn("flex flex-col p-20 pt-26 bg-white rounded-10"), className)
+        (cn('flex flex-col p-20 pt-26 bg-white rounded-10'), className)
       }
     >
       {children}

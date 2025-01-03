@@ -1,6 +1,6 @@
 import Dropdown from "../common/Dropdown";
 import Input from "../common/Input";
-import Panel, { PanelHeader } from "../common/Panel";
+import Panel, { PanelBody, PanelHeader } from "../common/Panel";
 import { QuestionType } from "../../types/app";
 
 //reactIcon
@@ -11,18 +11,22 @@ import { FaRegCircleCheck } from "react-icons/fa6";
 import { IoArrowDownCircleOutline } from "react-icons/io5";
 import { MdCalendarToday } from "react-icons/md";
 import { MdOutlineAccessTime } from "react-icons/md";
+import QuestionBodyEditor from "./QuestionBodyEditor";
+import { useState } from "react";
 
 export default function QuestionEditor() {
+  const [type, setType] = useState<QuestionType>("shortText");
   return (
-    <Panel>
-      <PanelHeader className="flex">
-        <Input className="flex-1" />
+    <Panel className="border-l-10 border-l-transparent focus-within:border-l-main">
+      <PanelHeader className="flex mb-25">
+        <Input className="flex-1 mr-30" />
         <Dropdown<QuestionType>
+          onChange={(value) => setType(value)}
           options={[
             {
               label: (
                 <div>
-                  <AiOutlineBars />
+                  <AiOutlineBars className="inline-block mr-10" />
                   <span>단답형</span>
                 </div>
               ),
@@ -31,7 +35,7 @@ export default function QuestionEditor() {
             {
               label: (
                 <div>
-                  <HiMiniBars4 />
+                  <HiMiniBars4 className="inline-block mr-10" />
                   <span>장문형</span>
                 </div>
               ),
@@ -40,7 +44,7 @@ export default function QuestionEditor() {
             {
               label: (
                 <div>
-                  <MdOutlineChecklist />
+                  <MdOutlineChecklist className="inline-block mr-10" />
                   <span>객관식 질문</span>
                 </div>
               ),
@@ -49,7 +53,7 @@ export default function QuestionEditor() {
             {
               label: (
                 <div>
-                  <FaRegCircleCheck />
+                  <FaRegCircleCheck className="inline-block mr-10" />
                   <span>체크박스</span>
                 </div>
               ),
@@ -58,7 +62,7 @@ export default function QuestionEditor() {
             {
               label: (
                 <div>
-                  <IoArrowDownCircleOutline />
+                  <IoArrowDownCircleOutline className="inline-block mr-10" />
                   <span>드롭다운</span>
                 </div>
               ),
@@ -67,7 +71,7 @@ export default function QuestionEditor() {
             {
               label: (
                 <div>
-                  <MdCalendarToday />
+                  <MdCalendarToday className="inline-block mr-10" />
                   <span>날짜</span>
                 </div>
               ),
@@ -76,7 +80,7 @@ export default function QuestionEditor() {
             {
               label: (
                 <div>
-                  <MdOutlineAccessTime />
+                  <MdOutlineAccessTime className="inline-block mr-10" />
                   <span>시간</span>
                 </div>
               ),
@@ -85,6 +89,9 @@ export default function QuestionEditor() {
           ]}
         />
       </PanelHeader>
+      <PanelBody>
+        <QuestionBodyEditor type={type} />
+      </PanelBody>
     </Panel>
   );
 }
