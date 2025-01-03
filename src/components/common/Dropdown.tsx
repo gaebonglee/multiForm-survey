@@ -1,10 +1,12 @@
 import {
   createContext,
   ReactNode,
+  RefObject,
   useCallback,
   useContext,
   useState,
 } from "react";
+import useOutsideClick from "../../hooks/common/useOutsideClick"
 import { IoMdArrowDropdown } from "react-icons/io";
 
 interface DropdownProps<T> {
@@ -43,8 +45,10 @@ export default function Dropdown<T>({
         onChange: handleChange,
       }}
     >
-      <DropdownButton placeholder={placeholder} />
-      <DropdownMenu />
+      <div className="text-left inline-block relative">
+        <DropdownButton placeholder={placeholder} />
+        <DropdownMenu />
+      </div>
     </DropdownContext.Provider>
   );
 }
@@ -67,7 +71,7 @@ function DropdownButton({ placeholder = " select" }: { placeholder?: string }) {
   const { open, options, selected } = useContext(DropdownContext)!;
   return (
     <button
-      className="border border-gray300 rounded-10 min-w-197 p-14 pr-36  relative"
+      className="border border-gray300 rounded-10 min-w-197 p-14 pr-36  relative text-left"
       onClick={open}
     >
       {selected >= 0 ? options[selected].label : placeholder ?? ""}
@@ -79,13 +83,17 @@ function DropdownButton({ placeholder = " select" }: { placeholder?: string }) {
 }
 function DropdownMenu() {
   const context = useContext(DropdownContext);
+  const containerRef = useOutsideClick();
   if (!context) {
     throw new Error("DropdownMenu must be used within a Dropdown.");
   }
 
-  const { opened, options, onChange } = context;
+  const { close, opened, options, onChange } = context;
   return opened ? (
-    <div>
+    <div
+      ref={containerRef as RefObject<HTMLDivElement>}
+      className="absolute left-0 top-62 border border-gray-300 rounded-10 flex flex-col min-w-197 bg-white"
+    >
       {options.map((option, index) => (
         <DropdownMenuItem
           key={`${option.value}`}
@@ -104,5 +112,12 @@ function DropdownMenuItem({
   label: ReactNode;
   onSelect: () => void;
 }) {
-  return <button onClick={onSelect}>{label}</button>;
+  return (
+    <button
+      className="text-left p-14 border-b-1 border-gray-300 last:border-b-0 "
+      onClick={onSelect}
+    >
+      {label}
+    </button>
+  );
 }
