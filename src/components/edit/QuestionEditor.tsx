@@ -1,103 +1,54 @@
-import Dropdown from "../common/Dropdown";
 import Input from "../common/Input";
-import Panel, { PanelBody, PanelHeader } from "../common/Panel";
-import { QuestionType } from "../../types/app";
+import Panel, { PanelBody, PanelHeader, PanelFooter } from "../common/Panel";
+import Divider from "../common/Divider";
+import Switch from "../common/Switch";
 
 //reactIcon
-import { AiOutlineBars } from "react-icons/ai";
-import { HiMiniBars4 } from "react-icons/hi2";
-import { MdOutlineChecklist } from "react-icons/md";
-import { FaRegCircleCheck } from "react-icons/fa6";
-import { IoArrowDownCircleOutline } from "react-icons/io5";
-import { MdCalendarToday } from "react-icons/md";
-import { MdOutlineAccessTime } from "react-icons/md";
+import QuestionTypeEditor from "./QuestionTypeEditor";
 import QuestionBodyEditor from "./QuestionBodyEditor";
 import Question from "../../models/question";
 import { observer } from "mobx-react-lite";
+import { LuCopy } from "react-icons/lu";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 //
 interface Props {
   question: Question;
+  onCopy: (id: number) => void;
+  onDelete: (id: number) => void;
 }
 
-const QuestionEditor = observer(function QuestionEditor({ question }: Props) {
+const QuestionEditor = observer(function QuestionEditor({
+  question,
+  onCopy,
+  onDelete,
+}: Props) {
   return (
     <Panel className="border-l-10 border-l-transparent focus-within:border-l-main">
       <PanelHeader className="flex mb-25">
         <Input className="flex-1 mr-30" />
-        <Dropdown<QuestionType>
-          defaultValue={question.type}
-          onChange={(value) => question.setType(value)}
-          options={[
-            {
-              label: (
-                <div>
-                  <AiOutlineBars className="inline-block mr-10" />
-                  <span>단답형</span>
-                </div>
-              ),
-              value: "shortText",
-            },
-            {
-              label: (
-                <div>
-                  <HiMiniBars4 className="inline-block mr-10" />
-                  <span>장문형</span>
-                </div>
-              ),
-              value: "shortText",
-            },
-            {
-              label: (
-                <div>
-                  <MdOutlineChecklist className="inline-block mr-10" />
-                  <span>객관식 질문</span>
-                </div>
-              ),
-              value: "shortText",
-            },
-            {
-              label: (
-                <div>
-                  <FaRegCircleCheck className="inline-block mr-10" />
-                  <span>체크박스</span>
-                </div>
-              ),
-              value: "shortText",
-            },
-            {
-              label: (
-                <div>
-                  <IoArrowDownCircleOutline className="inline-block mr-10" />
-                  <span>드롭다운</span>
-                </div>
-              ),
-              value: "shortText",
-            },
-            {
-              label: (
-                <div>
-                  <MdCalendarToday className="inline-block mr-10" />
-                  <span>날짜</span>
-                </div>
-              ),
-              value: "shortText",
-            },
-            {
-              label: (
-                <div>
-                  <MdOutlineAccessTime className="inline-block mr-10" />
-                  <span>시간</span>
-                </div>
-              ),
-              value: "shortText",
-            },
-          ]}
-        />
+        <QuestionTypeEditor type={question.type} onChange={question.setType} />
       </PanelHeader>
       <PanelBody>
         <QuestionBodyEditor type={question.type} />
       </PanelBody>
+      <PanelFooter className="flex justify-end gap-x-24 h-24 ">
+        <button onClick={() => onCopy(question.id)}>
+          <LuCopy />
+        </button>
+        <button onClick={() => onDelete(question.id)}>
+          <RiDeleteBin5Line />
+        </button>
+        <Divider direction="vertical" />
+        <div className="flex items-center">
+          <span className="mr-13">필수</span>
+          <Switch
+            id={`${question.id}_switch`}
+            checked={question.required}
+            onChange={question.setRequired}
+          />
+        </div>
+      </PanelFooter>
     </Panel>
   );
 });

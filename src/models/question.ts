@@ -16,7 +16,7 @@ export default class Question implements QuestionData {
       required: false,
     }
   ) {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {}, { autoBind: true });
     this.id = data.id;
     this.title = data.title;
     this.type = data.type;
