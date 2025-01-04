@@ -4,6 +4,7 @@ import MainLayout from "./components/common/MainLayout";
 
 import SectionListEditor from "./components/edit/SectionListEditor";
 import AdminPage from "./pages/AdminPage";
+import CreatePage from "./pages/CreatePage";
 import { SurveyStoreProvider } from "./store";
 import { Routes, Route, BrowserRouter } from "react-router";
 
@@ -13,7 +14,8 @@ function App() {
       <MainLayout>
         <SurveyStoreProvider>
           <Routes>
-            <Route path="/surveys:/surveyId" element={<AdminPage />}>
+            <Route path="/surveys/new" element={<CreatePage />} />
+            <Route path="/surveys/:surveyId" element={<AdminPage />}>
               <Route path="edit" element={<SectionListEditor />} />
               <Route path="responses" element={<div>응답</div>} />
             </Route>
