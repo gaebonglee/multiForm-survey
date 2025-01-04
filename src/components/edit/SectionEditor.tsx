@@ -26,7 +26,7 @@ const SectionEditor = observer(function SectionEditor({
         <QuestionEditor
           key={question.id}
           question={question}
-          onCopy={section.copyQuesion}
+          onCopy={section.copyQuestion}
           onDelete={section.removeQuestion}
         />
       ))}
