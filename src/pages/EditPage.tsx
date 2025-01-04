@@ -2,12 +2,23 @@ import { toJS } from "mobx";
 import SectionListEditor from "../components/edit/SectionListEditor";
 import { useSurveyStore } from "../store";
 import callApi from "../utils/api";
+import { useEffect } from "react";
+import { useParams } from "react-router";
 
-export default function CreatePage() {
+export default function EditPage() {
   const surveyStore = useSurveyStore();
+  const { surveyId } = useParams<{ surveyId: string }>();
+
+  useEffect(() => {
+    const id = parseInt(surveyId ?? "", 10);
+    if (id) {
+      surveyStore.fetchSurvey(id);
+    }
+  }, [surveyId, surveyStore]);
+
   const handleSubmit = () => {
-    callApi("/surveys", {
-      method: "POST",
+    callApi(`/surveys/${surveyId}`, {
+      method: "PUT",
       body: toJS({ sections: surveyStore.sections }),
     });
   };

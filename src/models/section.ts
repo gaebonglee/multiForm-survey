@@ -25,7 +25,7 @@ export default class Section implements SectionData {
     this.id = data.id;
     this.title = data.title;
     this.description = data.description;
-    this.questions = data.questions;
+    this.questions = data.questions.map((question) => new Question(question));
   }
 
   setTitle(title: string) {
