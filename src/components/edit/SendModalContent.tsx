@@ -1,3 +1,4 @@
+import callApi from "../../utils/api";
 import Button from "../common/Button";
 import Dropdown from "../common/Dropdown";
 import Panel, { PanelBody, PanelFooter, PanelHeader } from "../common/Panel";
@@ -11,11 +12,23 @@ interface Props {
   onClose: () => void;
 }
 
-export default function SendModalContent({ onClose }: Props) {
+export default function SendModalContent({
+  surveyId,
+  emailCollected,
+  onClose,
+}: Props) {
   const path = `${location.host}/surveys/${surveyId}`;
   const handleCopy = () => {
     navigator.clipboard.writeText(path);
     onClose();
+  };
+  const handleChangeEmailCollected = (value: boolean) => {
+    callApi(`/surveys/${surveyId}`, {
+      method: "PATCH",
+      body: {
+        emailCollected: value,
+      },
+    });
   };
   return (
     <Panel className="text-gray900">
@@ -29,10 +42,12 @@ export default function SendModalContent({ onClose }: Props) {
         <div className="-mx-20 px-20 bg-bg flex justify-between items-centerpy-13 mb-38">
           <span className="text-16 font-medium ">이메일 수집</span>
           <Dropdown<boolean>
+            defaultValue={emailCollected}
             options={[
               { label: "수집하지않음", value: false },
               { label: "수집함", value: true },
             ]}
+            onChange={handleChangeEmailCollected}
           />
         </div>
         <div className="flex flex-col">

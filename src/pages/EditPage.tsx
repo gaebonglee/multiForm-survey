@@ -25,10 +25,11 @@ export default function EditPage() {
     callApi(`/surveys/${surveyId}`, {
       method: "PUT",
       body: toJS({ sections: surveyStore.sections }),
-    }).then{()=>{
-      setOpened(true)
-    }};
+    }).then(() => {
+      setOpened(true);
+    });
   };
+
   return (
     <>
       <Button className="absolute top-0 right-0" onClick={handleSubmit}>
@@ -37,6 +38,7 @@ export default function EditPage() {
       <SectionListEditor />
       <Modal opened={opened}>
         <SendModalContent
+          emailCollected={surveyStore.emailCollected}
           surveyId={parseInt(surveyId, 10)}
           onClose={() => setOpened(false)}
         ></SendModalContent>
