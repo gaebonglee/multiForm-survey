@@ -25,7 +25,9 @@ export default function EditPage() {
     callApi(`/surveys/${surveyId}`, {
       method: "PUT",
       body: toJS({ sections: surveyStore.sections }),
-    });
+    }).then{()=>{
+      setOpened(true)
+    }};
   };
   return (
     <>
