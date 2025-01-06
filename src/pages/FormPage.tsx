@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSurveyStore } from "../store";
 import { useParams } from "react-router";
+import SectionLisView from "../components/form/SectionListView";
 
 
 export default function FormPage() {
@@ -14,4 +15,5 @@ export default function FormPage() {
       surveyStore.fetchSurvey(id);
     }
   }, [surveyId, surveyStore]);
+  return <SectionLisView/>
 }
