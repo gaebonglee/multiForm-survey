@@ -9,7 +9,7 @@ const storage = new JsonStorage<{
   sections: SectionData[];
   emailCollected: boolean;
   responses: SurveyResponse[];
-}>(path.join(__dirname, '../data/surveys.json'));
+}>(path.join(__dirname, '../data/'));
 
 router.get('/', (_req, res) => {
   return res.json(storage.getAll());

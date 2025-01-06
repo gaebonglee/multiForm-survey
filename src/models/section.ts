@@ -1,12 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import Question from "./question";
+import { SectionData } from "../types/app";
 
-type SectionData = {
-  id: number;
-  title: string;
-  description: string;
-  questions: Question[];
-};
 export default class Section implements SectionData {
   id: number;
   title: string;
